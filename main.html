@@ -1,19 +1,18 @@
 <header class="jumbotron">
-  <h1>Async Throwdown!</h1>
+  <h1>Async Throw-down!</h1>
+  <upload-button class="btn btn-primary btn-large" action="/upload" style="z-index: 10000;">Upload</upload-button>
+  
 </header>
 <div class="container">
-  <h1>Upload File</h1>
-  <form action="/upload" enctype="multipart/form-data" method="post">
-    <input type="file" name="upload">
-    <input class="btn" type="submit" value="Upload">
-  </form>
-  <div>
-    <h1>Output</h1>
+  <section class="span8 offset2">
+    <div class="page-header">
+      <h1>Results</h1>
+    </div>
     <ul>
       <li ng-repeat="(key, value) in uploads">
         <h3>{{key}}</h3>
         <progress percent="value"></progress>
       </li>
     </ul>
-  </div>
+  </section>
 </div>

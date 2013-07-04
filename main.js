@@ -1,4 +1,4 @@
-angular.module('App',['ui.bootstrap'])
+angular.module('App',['ui.bootstrap', 'upload.button'])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', { controller: 'MainCtrl', templateUrl: '/main.html'})

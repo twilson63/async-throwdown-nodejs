@@ -62,25 +62,27 @@ function handleRequest(req, res) {
       };
       ee.emit('progress', status);
     };
-    
+
     form.parse(req, function(err, fields, files) {
-      s3.putFile(files.upload.path, files.upload.name, function(e, r) {
+      if (err) {
+        res.writeHead(500, {'content-type': 'text/plain'});
+        res.end('error uploading file:\n\n');
+      }
+      res.writeHead(200, {'content-type': 'text/plain'});
+      res.end();
+      s3.putFile(files.uploadFile.path, files.uploadFile.name, function(e, r) {
         // remove file from tmp dir
         if (e) { 
-          res.writeHead(500, {'content-type': 'text/plain'});
-          res.write('error uploading file:\n\n');
-          res.end(util.inspect({fields: fields, files: files}));
+          console.log(e);
           server.close();
           var killtimer = setTimeout(function() {
             process.exit(1);
           }, 30000);
           killtimer.unref();
         }
-        res.writeHead(200, {'content-type': 'text/html'});
-        fs.createReadStream('./index.html').pipe(res);
       })
       .on('progress', function(status) {
-        status.name = files.upload.name;
+        status.name = files.uploadFile.name;
         ee.emit('progress', status);
       });
     });
@@ -95,6 +97,7 @@ function handleRequest(req, res) {
 
   streamFile('/components/angular/angular.js', 'text/javascript');
   streamFile('/components/angular-bootstrap/ui-bootstrap-tpls.js', 'text/javascript');
+  streamFile('/components/angular-upload-button/upload-button-btn.js', 'text/javascript');
   streamFile('/components/bootstrap/docs/assets/css/docs.css', 'text/css');
   streamFile('/components/bootstrap/docs/assets/css/bootstrap.css', 'text/css');
   streamFile('/main.js', 'text/javascript');
