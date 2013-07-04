@@ -7,51 +7,40 @@ var s3 = knox.createClient(require('./config'));
 var ee = new (require('events').EventEmitter);
 var engine = require('engine.io');
 var uuid = require('uuid');
-var cluster = require('cluster');
 
-if (cluster.isMaster) {
-  cluster.fork();
-  cluster.fork();
+//var domain = require('domain');
 
-  cluster.on('disconnect', function(worker) {
-    console.error('disconnect!');
-    cluster.fork();
+var server = http.createServer(function(req, res) {
+  handleRequest(req, res);
+  // var d = domain.create();
+  // d.on('error', function(err) {
+  //   console.log(err.code);
+  //   var killtimer = setTimeout(function() {
+  //     process.exit(1);
+  //   }, 30000);
+  //   killtimer.unref();
+  //   server.close();
+  //   // res.statusCode = 500;
+  //   // res.setHeader('content-type', 'text/plain');
+  //   res.writeHead(500, {'content-type': 'text/plain'});
+  //   res.end('Oops, there was a problem!\n');
+  // });
+  // d.add(req);
+  // d.add(res);
+  // d.run(function() {
+  //   
+  // });
+});
+
+server.listen(8000);
+
+var io = engine.attach(server);
+
+io.on('connection', function(socket) {
+  ee.on('progress', function(status) {
+    socket.send(JSON.stringify(status));
   });
-} else {
-  var domain = require('domain');
-
-  var server = http.createServer(function(req, res) {
-    var d = domain.create();
-    d.on('error', function(err) {
-      console.log(err.code);
-      var killtimer = setTimeout(function() {
-        process.exit(1);
-      }, 30000);
-      killtimer.unref();
-      server.close();
-      cluster.worker.disconnect(); 
-      // res.statusCode = 500;
-      // res.setHeader('content-type', 'text/plain');
-      res.writeHead(500, {'content-type': 'text/plain'});
-      res.end('Oops, there was a problem!\n');
-    });
-    d.add(req);
-    d.add(res);
-    d.run(function() {
-      handleRequest(req, res);
-    });
-  });
-
-  server.listen(8000);
-
-  var io = engine.attach(server);
-
-  io.on('connection', function(socket) {
-    ee.on('progress', function(status) {
-      socket.send(JSON.stringify(status));
-    });
-  });
-}
+});
 
 function handleRequest(req, res) {
   if (req.url == '/js/engine.io.js' && req.method.toLowerCase() == 'get') {
@@ -77,11 +66,16 @@ function handleRequest(req, res) {
     form.parse(req, function(err, fields, files) {
       s3.putFile(files.upload.path, files.upload.name, function(e, r) {
         // remove file from tmp dir
-        // if (e) { 
-        //   res.writeHead(500, {'content-type': 'text/plain'});
-        //   res.write('error uploading file:\n\n');
-        //   res.end(util.inspect({fields: fields, files: files}));
-        // }
+        if (e) { 
+          res.writeHead(500, {'content-type': 'text/plain'});
+          res.write('error uploading file:\n\n');
+          res.end(util.inspect({fields: fields, files: files}));
+          server.close();
+          var killtimer = setTimeout(function() {
+            process.exit(1);
+          }, 30000);
+          killtimer.unref();
+        }
         res.writeHead(200, {'content-type': 'text/html'});
         fs.createReadStream('./index.html').pipe(res);
       })
