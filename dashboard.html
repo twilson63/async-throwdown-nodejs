@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Dashboard</h1>
+  <ul>
+    <li ng-repeat="(key, value) in uploads">
+      <h3>{{key}}</h3>
+      <progress percent="value"></progress>
+    </li>
+  </ul>
+</div>

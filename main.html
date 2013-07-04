@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Upload File</h1>
+  <form action="/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="upload">
+    <input class="btn" type="submit" value="Upload">
+  </form>
+  <div>
+    <h1>Output</h1>
+    <ul>
+      <li ng-repeat="(key, value) in uploads">
+        <h3>{{key}}</h3>
+        <progress percent="value"></progress>
+      </li>
+    </ul>
+  </div>
+</div>

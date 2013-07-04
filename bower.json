@@ -1,0 +1,17 @@
+{
+  "name": "async-throwdown",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "bootstrap": "~2.3.2",
+    "angular-ui-bootstrap": "~0.4.0",
+    "underscore": "~1.4.4",
+    "angular-underscore": "latest",
+    "angular": "~1.0.7",
+    "angular-bootstrap": "~0.4.0"
+  }
+}
