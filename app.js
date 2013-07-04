@@ -6,6 +6,7 @@ var knox = require('knox');
 var s3 = knox.createClient(require('./config'));
 var ee = new (require('events').EventEmitter);
 var engine = require('engine.io');
+var uuid = require('uuid');
 
 var server = http.createServer(function(req, res) {
   if (req.url == '/js/engine.io.js' && req.method.toLowerCase() == 'get') {
@@ -19,10 +20,10 @@ var server = http.createServer(function(req, res) {
     var form = new formidable.IncomingForm();
     form.uploadDir = './uploads';
     form.keepExtensions = true;
-
+    var name = uuid.v1();
     form.on('progress', function(bytesReceived, bytesExpected) {
       var status = { 
-        name: 'upload',
+        name: name,
         percent: parseInt(
           (bytesReceived / bytesExpected) * 100, 10)
       };
