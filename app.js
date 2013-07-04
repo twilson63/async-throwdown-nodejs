@@ -22,7 +22,7 @@ var server = http.createServer(function(req, res) {
 
     form.on('progress', function(bytesReceived, bytesExpected) {
       var status = { 
-        name: files.upload.name,
+        name: 'upload',
         percent: parseInt(
           (bytesReceived / bytesExpected) * 100, 10)
       };
