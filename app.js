@@ -20,11 +20,14 @@ var server = http.createServer(function(req, res) {
     form.uploadDir = './uploads';
     form.keepExtensions = true;
 
-    // form.on('progress', function(bytesReceived, bytesExpected) {
-    //   console.log(parseInt(
-    //     (bytesReceived / bytesExpected) * 100)
-    //   );
-    // });
+    form.on('progress', function(bytesReceived, bytesExpected) {
+      var status = { 
+        name: files.upload.name,
+        percent: parseInt(
+          (bytesReceived / bytesExpected) * 100, 10)
+      };
+      ee.emit('progress', status);
+    });
 
     form.parse(req, function(err, fields, files) {
       console.log(err);
