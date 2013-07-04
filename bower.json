@@ -12,6 +12,7 @@
     "underscore": "~1.4.4",
     "angular-underscore": "latest",
     "angular": "~1.0.7",
-    "angular-bootstrap": "~0.4.0"
+    "angular-bootstrap": "~0.4.0",
+    "angular-upload-button": "~0.0.4"
   }
 }
