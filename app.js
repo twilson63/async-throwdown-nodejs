@@ -1,9 +1,15 @@
+// max number of connections
+var MAX_CONNECTIONS = 1000000;
+// keep alive interval
+var KEEPALIVE_INTERVAL = 2*60*1000;
+
 var http   = require('http'),
   path     = require('path'),
   ee       = new (require('events').EventEmitter),
   engine   = require('engine.io'),
   upload   = require('./upload')(ee),
   filed    = require('filed'),
+  //zlib     = require('zlib'),
   /* simple router for upload and dashboard route */
   router   = {
     post: { '/upload': upload },
@@ -13,6 +19,8 @@ var http   = require('http'),
     }
   }
 };
+
+http.globalAgent.maxSockets = MAX_CONNECTIONS;
 
 /* create server and handle request */
 var server = http.createServer(function(req, res) {
