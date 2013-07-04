@@ -4,8 +4,30 @@
     <title>Async Throwdown (NodeJS)</title>
     <link rel="stylesheet" href="/components/bootstrap/docs/assets/css/bootstrap.css">
     <link rel="stylesheet" href="/components/bootstrap/docs/assets/css/docs.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/" class="brand">Async Throwdown - NodeJs</a>
+          <ul class="nav">
+            <li>
+              <a href="/">
+                <i class="icon-cloud-upload"></i>
+                Upload
+              </a>
+            </li>
+            <li>
+              <a href="/dashboard">
+                <i class="icon-dashboard"></i>
+                Dashboard
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div ng-view></div>
     <script src="/js/engine.io.js"></script>
     <script src="/components/angular/angular.js" type="text/javascript" charset="utf-8"></script>
