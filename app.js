@@ -16,6 +16,10 @@ var http   = require('http'),
     get: { '/dashboard': function(req, res) { 
       filed(path.join(__dirname, 'public', 'index.html'))
         .pipe(res); 
+      },
+      '/mu-8a96bb28-3144ff61-26ebfcaf-2d0f9b36': function(req, res) {
+        res.writeHead(200);
+        res.end(42);
       }
     }
   },
