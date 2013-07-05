@@ -1,7 +1,5 @@
 // max number of connections
 var MAX_CONNECTIONS = 1000000;
-// keep alive interval
-var KEEPALIVE_INTERVAL = 2*60*1000;
 
 var http   = require('http'),
   path     = require('path'),
@@ -30,7 +28,6 @@ var numCPUs = require('os').cpus().length;
 
 if (cluster.isMaster) {
   // Fork workers.
-  console.log(numCPUs);
   for (var i = 0; i < numCPUs; i++) {
     cluster.fork();
   }

@@ -1,0 +1,7 @@
+{
+  "name": "async-throwdown-nodejs",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-bootstrap": "~0.4.0"
+  }
+}

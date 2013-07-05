@@ -15,5 +15,10 @@
     "engine.io": "~0.6.3",
     "uuid": "~1.4.1",
     "filed": "~0.1.0"
+  },
+  "devDependencies": {
+    "b": "~2.0.1",
+    "form-data": "0.0.10",
+    "request": "~2.22.0"
   }
 }
